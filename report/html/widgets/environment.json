@@ -1,0 +1,1 @@
+[{"values":["天气预报接口自动化"],"name":"Project"},{"values":["GET /v1/weather/now"],"name":"Interface"},{"values":["test"],"name":"Env"},{"values":["https://api.weather-demo.com"],"name":"BaseUrl"},{"values":["QA"],"name":"Tester"},{"values":["3.9+"],"name":"Python"},{"values":["8.2.0"],"name":"Pytest"},{"values":["2.32.3"],"name":"Requests"}]

@@ -1,0 +1,22 @@
+# ========== 环境配置 ==========
+# 默认指向本地 Mock Server（python mock_server.py），开箱即可跑通用例并生成 Allure 报告。
+# 联调真实第三方服务时，把 base_url / api_key 改成下列任一：
+#   - 心知天气:  https://api.seniverse.com   （key 在查询参数中，需另适配 RequestHandler）
+#   - 和风天气:  https://{your-host}.qweatherapi.com
+#   - OpenWeatherMap: https://api.openweathermap.org （appid 在查询参数中）
+env: mock
+base_url: http://127.0.0.1:18765
+timeout: 10
+
+# 本地 Mock 的测试 Key（与 mock_server.py 中的 VALID_KEY 一致）
+api_key: wk_test_0123456789abcdef
+
+# 依赖接口：地点搜索（实时天气查询依赖它先获取 location / lat / lon）
+search:
+  path: /v1/locations
+  keyword: "厦门"
+  expect_city: "厦门"
+
+# 被测接口：实时天气查询
+weather_now:
+  path: /v1/weather/now

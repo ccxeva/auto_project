@@ -1,0 +1,17 @@
+{
+  "method": "GET",
+  "url": "http://127.0.0.1:18765/v1/weather/now",
+  "headers": {
+    "User-Agent": "python-requests/2.34.2",
+    "Accept-Encoding": "gzip, deflate, zstd",
+    "Accept": "application/json",
+    "Connection": "keep-alive",
+    "X-Api-Key": "wk_test_****ef",
+    "Accept-Language": "zh-Hans",
+    "Content-Type": "application/json; charset=utf-8"
+  },
+  "params": {
+    "lon": "118.09"
+  },
+  "json": null
+}

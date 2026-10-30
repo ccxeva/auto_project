@@ -1,0 +1,284 @@
+# ============================================================
+# 数据驱动：实时天气查询用例（请求操作与数据分离）
+# ${location.xxx} 为运行时由 conftest 的 location_data fixture 替换
+# ============================================================
+cases:
+
+  # ---------- P0 核心流程 ----------
+  - case_id: weather_now_001
+    title: 通过地点搜索返回的地点编号正常查询实时天气
+    severity: critical
+    tags: [P0, location]
+    method: GET
+    path: /v1/weather/now
+    params:
+      location: "${location.id}"
+      unit: c
+      lang: zh-Hans
+    expected:
+      http_code: 200
+      code: 0
+      data_not_null: true
+      data_field_equals:
+        location.id: "${location.id}"
+
+  - case_id: weather_now_002
+    title: 通过地点搜索返回的经纬度正常查询实时天气
+    severity: critical
+    tags: [P0, latlon]
+    method: GET
+    path: /v1/weather/now
+    params:
+      lat: "${location.lat}"
+      lon: "${location.lon}"
+      unit: c
+    expected:
+      http_code: 200
+      code: 0
+      data_not_null: true
+
+  - case_id: weather_now_003
+    title: 请求头未携带 X-Api-Key
+    severity: critical
+    tags: [P0, auth]
+    method: GET
+    path: /v1/weather/now
+    # 用例级覆盖：去掉默认鉴权头
+    extra_headers:
+      X-Api-Key: null
+    params:
+      location: "${location.id}"
+    expected:
+      http_code: 401
+      code: 20001
+      data_null: true
+
+  - case_id: weather_now_004
+    title: 携带伪造的 API Key
+    severity: critical
+    tags: [P0, auth]
+    method: GET
+    path: /v1/weather/now
+    extra_headers:
+      X-Api-Key: "wk_invalid_fake_key"
+    params:
+      location: "${location.id}"
+    expected:
+      http_code: 401
+      code: 20002
+      data_null: true
+
+  # ---------- P1 参数校验 ----------
+  - case_id: weather_now_006
+    title: 仅传 lat 未传 lon
+    severity: normal
+    tags: [P1, param]
+    method: GET
+    path: /v1/weather/now
+    params:
+      lat: "${location.lat}"
+    expected:
+      http_code: 400
+      code: 10001
+      data_null: true
+
+  - case_id: weather_now_007
+    title: 仅传 lon 未传 lat
+    severity: normal
+    tags: [P1, param]
+    method: GET
+    path: /v1/weather/now
+    params:
+      lon: "${location.lon}"
+    expected:
+      http_code: 400
+      code: 10001
+      data_null: true
+
+  - case_id: weather_now_008
+    title: location 与 lat/lon 均未传
+    severity: normal
+    tags: [P1, param]
+    method: GET
+    path: /v1/weather/now
+    params: {}
+    expected:
+      http_code: 400
+      code: 10001
+      data_null: true
+
+  - case_id: weather_now_009
+    title: 传入不存在的地点编号
+    severity: normal
+    tags: [P1, business]
+    method: GET
+    path: /v1/weather/now
+    params:
+      location: "999999999"
+    expected:
+      http_code: 404
+      code: 10003
+      data_null: true
+
+  - case_id: weather_now_010
+    title: 纬度越界（95）
+    severity: normal
+    tags: [P1, boundary]
+    method: GET
+    path: /v1/weather/now
+    params:
+      lat: 95
+      lon: 118.09
+    expected:
+      http_code: 404
+      code: 10003
+      data_null: true
+
+  - case_id: weather_now_011
+    title: 经度越界（200）
+    severity: normal
+    tags: [P1, boundary]
+    method: GET
+    path: /v1/weather/now
+    params:
+      lat: 24.48
+      lon: 200
+    expected:
+      http_code: 404
+      code: 10003
+      data_null: true
+
+  - case_id: weather_now_012
+    title: unit=f 切换为华氏度
+    severity: normal
+    tags: [P1, unit]
+    method: GET
+    path: /v1/weather/now
+    params:
+      location: "${location.id}"
+      unit: f
+    expected:
+      http_code: 200
+      code: 0
+      data_not_null: true
+
+  - case_id: weather_now_013
+    title: unit 非法枚举值
+    severity: normal
+    tags: [P1, enum]
+    method: GET
+    path: /v1/weather/now
+    params:
+      location: "${location.id}"
+      unit: k
+    expected:
+      http_code: 400
+      code: 10004
+      data_null: true
+
+  - case_id: weather_now_014
+    title: lang=en 英文天气现象
+    severity: normal
+    tags: [P1, lang]
+    method: GET
+    path: /v1/weather/now
+    params:
+      location: "${location.id}"
+      lang: en
+    expected:
+      http_code: 200
+      code: 0
+      data_not_null: true
+
+  - case_id: weather_now_015
+    title: lang 非法枚举值
+    severity: normal
+    tags: [P1, enum]
+    method: GET
+    path: /v1/weather/now
+    params:
+      location: "${location.id}"
+      lang: xx
+    expected:
+      http_code: 400
+      code: 10004
+      data_null: true
+
+  - case_id: weather_now_016
+    title: location 空字符串
+    severity: minor
+    tags: [P1, param]
+    method: GET
+    path: /v1/weather/now
+    params:
+      location: ""
+    expected:
+      http_code: 400
+      code: 10001
+      data_null: true
+
+  - case_id: weather_now_017
+    title: lat/lon 非数字
+    severity: minor
+    tags: [P1, param]
+    method: GET
+    path: /v1/weather/now
+    params:
+      lat: abc
+      lon: xyz
+    expected:
+      http_code: 400
+      code: 10002
+      data_null: true
+
+  - case_id: weather_now_019
+    title: POST 调用 GET 接口（405）
+    severity: normal
+    tags: [P1, method]
+    method: POST
+    path: /v1/weather/now
+    params:
+      location: "${location.id}"
+    expected:
+      http_code: 405
+
+  - case_id: weather_now_020
+    title: 请求错误路径（404 资源不存在）
+    severity: normal
+    tags: [P1, path]
+    method: GET
+    path: /v1/weather/nowww
+    params:
+      location: "${location.id}"
+    expected:
+      http_code: 404
+      code: 10005
+      data_null: true
+
+  # ---------- P2 字段契约 ----------
+  - case_id: weather_now_022
+    title: 响应字段完整性与数据类型校验
+    severity: minor
+    tags: [P2, contract]
+    method: GET
+    path: /v1/weather/now
+    params:
+      location: "${location.id}"
+    expected:
+      http_code: 200
+      code: 0
+      data_not_null: true
+
+  - case_id: weather_now_026
+    title: 海外跨时区城市经纬度查询（纽约）
+    severity: minor
+    tags: [P2, overseas]
+    method: GET
+    path: /v1/weather/now
+    params:
+      lat: 40.71
+      lon: -74.01
+    expected:
+      http_code: 200
+      code: 0
+      data_not_null: true

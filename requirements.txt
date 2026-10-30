@@ -1,0 +1,8 @@
+# Python 3.9+（推荐 3.10 ~ 3.13）
+# 说明：allure-pytest 2.13.2 在 Python 3.13 / pluggy 1.4+ 下会报
+#       'str' object has no attribute 'iter_parents'，必须 >= 2.13.5
+requests>=2.32.3
+pytest>=8.2.0
+pyyaml>=6.0.1
+allure-pytest>=2.13.5
+pluggy>=1.4.0
