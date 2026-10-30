@@ -1,5 +1,5 @@
 """
-一键执行入口：
+123一键执行入口：
 1. 跑 pytest，原始结果输出到 report/tmp
 2. 复制 environment.properties 到 report/tmp（Allure 环境面板）
 3. 用 allure 命令生成 HTML 报告到 report/html（若无 allure 命令则降级提示）
