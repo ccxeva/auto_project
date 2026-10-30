@@ -4,16 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8acac519-b3ff-4f12-a0e8-5a63b9819321" name="Changes" comment="AI梳理天气预报API设计文档及整理的实时天气查询api的测试用例-1030-1">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/words/天气预报接口API详细设计文档.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/words/实时天气查询接口_测试用例.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/天气预报接口API详细设计文档.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/实时天气查询接口_测试用例.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/接口用例文档/天气预报接口API详细设计文档.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/接口用例文档/实时天气查询接口_测试用例.docx" beforeDir="false" />
-    </list>
+    <list default="true" id="8acac519-b3ff-4f12-a0e8-5a63b9819321" name="Changes" comment="AI梳理天气预报API设计文档及整理的实时天气查询api的测试用例-1030-1" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
